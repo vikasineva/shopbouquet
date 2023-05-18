@@ -11,7 +11,7 @@
 	<groupId>com.ua</groupId>
 	<artifactId>bouqetshop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bouqetshop</name>
+	<name>Rosella</name>
 	<description>Back-end part of web-store</description>
 	<properties>
 		<java.version>17</java.version>
