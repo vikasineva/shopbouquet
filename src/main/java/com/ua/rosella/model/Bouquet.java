@@ -30,6 +30,9 @@ public class Bouquet extends Good{
     }
     public Size size;
 
+    public List<String> wrapping;
+
+
     public List<BouquetFlower> getComposition() {
         return composition;
     }
@@ -68,5 +71,13 @@ public class Bouquet extends Good{
 
     public void setSize(Size size) {
         this.size = size;
+    }
+
+    public List<String> getWrapping() {
+        return wrapping;
+    }
+
+    public void setWrapping(List<String> wrapping) {
+        this.wrapping = wrapping;
     }
 }
