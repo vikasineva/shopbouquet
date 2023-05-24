@@ -4,6 +4,7 @@ public class OrderDetail {
     Good good;
     Double goodPrice;
     Integer quantity;
+    String wrapping;
 
     public Good getGood() {
         return good;
@@ -27,5 +28,13 @@ public class OrderDetail {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getWrapping() {
+        return wrapping;
+    }
+
+    public void setWrapping(String wrapping) {
+        this.wrapping = wrapping;
     }
 }

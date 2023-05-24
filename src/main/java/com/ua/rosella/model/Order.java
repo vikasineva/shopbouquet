@@ -10,10 +10,20 @@ public class Order {
     User admin;
     User customer;
     public class Delivery{
+
+        Date dateTime;
         String city;
         String street;
         String house;
         Integer apartment;
+
+        public Date getDateTime() {
+            return dateTime;
+        }
+
+        public void setDateTime(Date dateTime) {
+            this.dateTime = dateTime;
+        }
 
         public String getCity() {
             return city;
