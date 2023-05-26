@@ -11,8 +11,8 @@ public class Product {
     ObjectId id;
     @Field(name = "name")
     String name;
-    @Field(name = "transliteration")
-    String transliteration;
+    @Field(name = "translitName")
+    String translitName;
     @Field(name = "description")
     String description;
     @Field(name = "price")
@@ -80,11 +80,11 @@ public class Product {
         this.available = available;
     }
 
-    public String getTransliteration() {
-        return transliteration;
+    public String getTranslitName() {
+        return translitName;
     }
 
-    public void setTransliteration(String transliteration) {
-        this.transliteration = transliteration;
+    public void setTranslitName(String translitName) {
+        this.translitName = translitName;
     }
 }

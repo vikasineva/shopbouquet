@@ -13,8 +13,12 @@ public class Bouquet extends Product {
     List<String> themes;
     @Field(name = "kind")
     String kind;
+    @Field(name = "translitKind")
+    String translitKind;
     @Field(name = "subspecies")
     String subspecies;
+    @Field(name = "translitSubspecies")
+    String translitSubspecies;
     public class Size{
         Double height;
         Double width;
@@ -87,5 +91,21 @@ public class Bouquet extends Product {
 
     public void setWrapping(List<String> wrapping) {
         this.wrapping = wrapping;
+    }
+
+    public String getTranslitKind() {
+        return translitKind;
+    }
+
+    public void setTranslitKind(String translitKind) {
+        this.translitKind = translitKind;
+    }
+
+    public String getTranslitSubspecies() {
+        return translitSubspecies;
+    }
+
+    public void setTranslitSubspecies(String translitSubspecies) {
+        this.translitSubspecies = translitSubspecies;
     }
 }

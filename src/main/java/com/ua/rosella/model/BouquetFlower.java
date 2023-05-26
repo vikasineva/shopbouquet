@@ -7,6 +7,7 @@ import java.util.List;
 
 @Document(collection = "Products")
 public class BouquetFlower {
+    @Field(name = "flower")
     Flower flower;
     @Field(name = "amount")
     Integer quantity;

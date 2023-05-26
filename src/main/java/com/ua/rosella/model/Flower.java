@@ -1,10 +1,13 @@
 package com.ua.rosella.model;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-
+@Document(collection = "Flowers")
 public class Flower {
+    @Id
     ObjectId id;
     String name;
     String description;
