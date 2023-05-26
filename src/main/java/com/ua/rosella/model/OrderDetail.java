@@ -1,17 +1,17 @@
 package com.ua.rosella.model;
 
 public class OrderDetail {
-    Good good;
+    Product product;
     Double goodPrice;
     Integer quantity;
     String wrapping;
 
-    public Good getGood() {
-        return good;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setGood(Good good) {
-        this.good = good;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Double getGoodPrice() {

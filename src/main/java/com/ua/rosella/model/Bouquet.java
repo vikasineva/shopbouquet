@@ -1,12 +1,19 @@
 package com.ua.rosella.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.List;
 
-public class Bouquet extends Good{
-
+@Document(collection = "Products")
+public class Bouquet extends Product {
+    @Field(name = "composition.composition")
     List<BouquetFlower> composition;
+    @Field(name = "themes")
     List<String> themes;
+    @Field(name = "kind")
     String kind;
+    @Field(name = "subspecies")
     String subspecies;
     public class Size{
         Double height;
@@ -28,8 +35,9 @@ public class Bouquet extends Good{
             this.width = width;
         }
     }
+    @Field(name = "size")
     public Size size;
-
+    @Field(name = "composition.wrapping")
     public List<String> wrapping;
 
 
