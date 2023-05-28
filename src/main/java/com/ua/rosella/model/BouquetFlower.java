@@ -1,5 +1,6 @@
 package com.ua.rosella.model;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 @Document(collection = "Products")
 public class BouquetFlower {
-    @Field(name = "flower")
+    @DBRef
     Flower flower;
     @Field(name = "amount")
     Integer quantity;
