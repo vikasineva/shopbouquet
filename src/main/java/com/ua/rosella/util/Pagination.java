@@ -1,6 +1,6 @@
 package com.ua.rosella.util;
 
-class Pagination {
+public class Pagination{
     final Integer curPage;
     final Integer itemsCount;
     final Integer itemsPerPage;

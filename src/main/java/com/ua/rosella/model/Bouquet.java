@@ -2,7 +2,6 @@ package com.ua.rosella.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
 import java.util.List;
 
 @Document(collection = "Products")
@@ -108,4 +107,5 @@ public class Bouquet extends Product {
     public void setTranslitSubspecies(String translitSubspecies) {
         this.translitSubspecies = translitSubspecies;
     }
+
 }
