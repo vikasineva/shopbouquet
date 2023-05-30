@@ -48,5 +48,18 @@ public class CatalogController {
         return new ResponseEntity<>(model, HttpStatus.OK);
     }
 
-
+    @GetMapping(value = "/product/{productName}", produces = "application/json")
+    public ResponseEntity<?> getProduct(@PathVariable String productName){
+        if(productName==null || productName.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        productName = productName.toLowerCase();
+        var product = service.getBouquetByTranslit(productName);
+        if(product!=null){
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
