@@ -1,5 +1,8 @@
 package com.ua.rosella;
 
 public class ConstantVariables {
-    public static int itemsPerPage = 2;
+
+    public final static int itemsPerPage = 12,
+                            pagesBefore = 2,
+                            pagesAfter = 4;
 }
