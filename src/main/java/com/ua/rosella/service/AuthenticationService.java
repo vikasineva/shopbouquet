@@ -19,16 +19,19 @@ import java.util.Date;
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
     public AuthenticationService(UserRepository userRepository,
+                                 UserService userService,
                                  PasswordEncoder passwordEncoder,
                                  JwtService jwtService,
                                  AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -52,7 +55,7 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserEmail(), request.getPassword()));
 
-        var user = userRepository.findUserByEmail(request.getUserEmail());
+        var user = userService.getUserByUserEmail(request.getUserEmail());
         if (user == null) throw new UsernameNotFoundException("User not found");
 
         var jwtToken = jwtService.generateToken(user);

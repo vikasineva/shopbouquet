@@ -4,17 +4,16 @@ import com.ua.rosella.AuthenticationResponse;
 import com.ua.rosella.request.AuthenticationRequest;
 import com.ua.rosella.request.RegisterRequest;
 import com.ua.rosella.service.AuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 public class LoginController {
-    AuthenticationService service;
 
-    public LoginController(AuthenticationService service) {
-        this.service = service;
-    }
+    @Autowired
+    private AuthenticationService service;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {

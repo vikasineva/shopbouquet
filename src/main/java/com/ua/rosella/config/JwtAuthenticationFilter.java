@@ -1,5 +1,6 @@
 package com.ua.rosella.config;
 
+import com.ua.rosella.repository.UserRepository;
 import com.ua.rosella.service.JwtService;
 import com.ua.rosella.service.UserService;
 import jakarta.servlet.FilterChain;
