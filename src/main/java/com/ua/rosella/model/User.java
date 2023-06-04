@@ -1,4 +1,5 @@
 package com.ua.rosella.model;
+import com.ua.rosella.token.Token;
 import org.bson.BsonObjectId;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -8,9 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Document(collection = "Users")
 public class User implements UserDetails {
@@ -32,9 +31,8 @@ public class User implements UserDetails {
     Boolean enabled;
     Date birthday;
 
-
-    public User() {
-    }
+    private List<Token> tokens = new LinkedList<>();
+    public User() {}
 
     public User(String email, String password, String firstName, String lastName, String picProfile, Date creationDate, UserRole role, String phone, Boolean enabled, Date birthday) {
         this.email = email;
@@ -173,5 +171,18 @@ public class User implements UserDetails {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
+    public void addToken(Token token) {
+        List<Token> newTokensList = new LinkedList<Token>(tokens);
+        newTokensList.add(token);
+        setTokens(newTokensList);
     }
 }

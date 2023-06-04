@@ -6,8 +6,9 @@ import com.ua.rosella.model.UserRole;
 import com.ua.rosella.repository.UserRepository;
 import com.ua.rosella.request.AuthenticationRequest;
 import com.ua.rosella.request.RegisterRequest;
+import com.ua.rosella.token.Token;
+import com.ua.rosella.token.TokenType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class AuthenticationService {
@@ -48,7 +50,10 @@ public class AuthenticationService {
                 true,
                 request.getBirthday());
         userRepository.save(user);
+
         var jwtToken = jwtService.generateToken(user);
+        saveUserToken(user, jwtToken);
+
         return new AuthenticationResponse(jwtToken);
     }
 
@@ -59,6 +64,27 @@ public class AuthenticationService {
         if (user == null) throw new UsernameNotFoundException("User not found");
 
         var jwtToken = jwtService.generateToken(user);
+
+        revokeAllUserTokens(user); // revoke all user's tokens in DB
+        saveUserToken(user, jwtToken);
         return new AuthenticationResponse(jwtToken);
+    }
+
+    private void saveUserToken(User user, String jwtToken) {
+        Token token = new Token(jwtToken, TokenType.BEARER, false, false);
+        user.addToken(token);
+        userRepository.save(user);
+    }
+
+    // revoke all user's tokens that previously were valid and add them to user. Other will be removed from DB
+    private void revokeAllUserTokens(User user) {
+        List<Token> validUserTokens = userService.getValidTokensByUserId(user.getId());
+        if (validUserTokens.isEmpty()) return;
+        validUserTokens.forEach(t -> {
+            t.setExpired(true);
+            t.setRevoked(true);
+        });
+        user.setTokens(validUserTokens);
+        userRepository.save(user);
     }
 }

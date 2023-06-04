@@ -13,13 +13,8 @@ public class DemoController {
         return ResponseEntity.ok("It's work! Auth");
     }
 
-    @GetMapping("/api/v1/auth/demo")
+    @GetMapping("/auth/demo")
     public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("It's work!");
-    }
-
-    @PostMapping("/api/v1/auth/demo")
-    public ResponseEntity<String> sayHelloPOST() {
         return ResponseEntity.ok("It's work!");
     }
 }

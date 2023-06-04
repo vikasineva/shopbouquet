@@ -2,9 +2,6 @@ package com.ua.rosella.config;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +10,11 @@ import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 
-import java.util.Collections;
-
 @Configuration
 public class MongoConfig extends AbstractMongoClientConfiguration {
     private static final String CONNECTION_STRING = "mongodb+srv://%s:%s@%s/%s";
     private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password";
+    private static final String PASSWORD = "<password>";
     private static final String HOST = "rosella.f5cthio.mongodb.net";
     private static final String DATABASE = "Rosella";
 
