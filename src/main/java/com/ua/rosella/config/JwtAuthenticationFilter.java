@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7); // 7 because previous letters are 'Bearer '
         userEmail = jwtService.extractUsername(jwt);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) { // getAuthentication == null means that user is not logged in
-            UserDetails userDetails = this.userService.getUserByUserEmail(userEmail);
+            UserDetails userDetails = this.userService.getUserByUserEmail(userEmail).orElseThrow();
             boolean isTokenValid = userService.getTokenByItself(jwt)
                     .map(t-> !t.isExpired() && !t.isRevoked())
                     .orElse(false);

@@ -36,7 +36,7 @@ public class LogoutService implements LogoutHandler {
 
         Token storedToken = userService.getTokenByItself(jwt).orElse(null);
         if (storedToken != null) {
-            User user = userService.getUserByUserEmail(userEmail);
+            User user = userService.getUserByUserEmail(userEmail).orElse(null);
             List<Token> tempList = new LinkedList<>(user.getTokens());
             int tokenIndex = tempList.indexOf(tempList.stream().filter(token -> jwt.equals(token.getToken())).findAny().orElse(null));
 

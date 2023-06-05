@@ -25,10 +25,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User getUserByUserEmail(String userEmail) {
+    public Optional<User> getUserByUserEmail(String userEmail) {
         var user = userRepository.findUserByEmail(userEmail);
         if (user == null) throw new UsernameNotFoundException("User not found");
-        return user;
+        return Optional.of(user);
     }
 
     // valid means expired OR revoked equals false

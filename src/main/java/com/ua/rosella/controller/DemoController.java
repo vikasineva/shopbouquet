@@ -12,6 +12,10 @@ public class DemoController {
     public ResponseEntity<String> sayHelloAuth() {
         return ResponseEntity.ok("It's work! Auth");
     }
+    @GetMapping("/admin/demo")
+    public ResponseEntity<String> sayHelloAdmin() {
+        return ResponseEntity.ok("It's work! Admin");
+    }
 
     @GetMapping("/auth/demo")
     public ResponseEntity<String> sayHello() {

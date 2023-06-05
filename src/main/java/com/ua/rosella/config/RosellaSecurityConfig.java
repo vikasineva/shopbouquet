@@ -1,5 +1,6 @@
 package com.ua.rosella.config;
 
+import com.ua.rosella.model.UserRole;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +47,9 @@ public class RosellaSecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**")
+                .requestMatchers("/auth/**",
+                        "/{catalogName}/**",
+                        "/product/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

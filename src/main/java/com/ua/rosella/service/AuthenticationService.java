@@ -1,5 +1,6 @@
 package com.ua.rosella.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ua.rosella.AuthenticationResponse;
 import com.ua.rosella.model.User;
 import com.ua.rosella.model.UserRole;
@@ -8,13 +9,20 @@ import com.ua.rosella.request.AuthenticationRequest;
 import com.ua.rosella.request.RegisterRequest;
 import com.ua.rosella.token.Token;
 import com.ua.rosella.token.TokenType;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -52,22 +60,24 @@ public class AuthenticationService {
         userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(user, jwtToken);
 
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, refreshToken);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserEmail(), request.getPassword()));
 
-        var user = userService.getUserByUserEmail(request.getUserEmail());
+        var user = userService.getUserByUserEmail(request.getUserEmail()).orElseThrow();
         if (user == null) throw new UsernameNotFoundException("User not found");
 
         var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
 
         revokeAllUserTokens(user); // revoke all user's tokens in DB
         saveUserToken(user, jwtToken);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, refreshToken);
     }
 
     private void saveUserToken(User user, String jwtToken) {
@@ -86,5 +96,32 @@ public class AuthenticationService {
         });
         user.setTokens(validUserTokens);
         userRepository.save(user);
+    }
+
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String refreshToken;
+        final String userEmail;
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+
+        refreshToken = authHeader.substring(7); // 7 because previous letters are 'Bearer '
+        userEmail = jwtService.extractUsername(refreshToken);
+        if (userEmail != null) {
+            var user = this.userService.getUserByUserEmail(userEmail).orElseThrow();
+
+            if (jwtService.isTokenValid(refreshToken, user)) {
+                var accessToken = jwtService.generateToken(user);
+
+                revokeAllUserTokens(user);
+                saveUserToken(user, accessToken);
+
+                var authResponse = new AuthenticationResponse(accessToken, refreshToken);
+
+                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+            }
+        }
     }
 }
