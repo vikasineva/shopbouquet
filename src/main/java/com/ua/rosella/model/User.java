@@ -47,6 +47,17 @@ public class User implements UserDetails {
         this.birthday = birthday;
     }
 
+    public User(String email, String password, String firstName, String picProfile, Date creationDate, UserRole role, String phone, Boolean enabled) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.picProfile = picProfile;
+        this.creationDate = creationDate;
+        this.role = role;
+        this.phone = phone;
+        this.enabled = enabled;
+    }
+
     public ObjectId getId() {
         return id;
     }

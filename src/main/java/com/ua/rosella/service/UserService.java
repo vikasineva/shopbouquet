@@ -26,9 +26,7 @@ public class UserService {
     }
 
     public Optional<User> getUserByUserEmail(String userEmail) {
-        var user = userRepository.findUserByEmail(userEmail);
-        if (user == null) throw new UsernameNotFoundException("User not found");
-        return Optional.of(user);
+        return userRepository.findUserByEmail(userEmail);
     }
 
     // valid means expired OR revoked equals false

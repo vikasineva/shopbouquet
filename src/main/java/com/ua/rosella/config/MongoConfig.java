@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 public class MongoConfig extends AbstractMongoClientConfiguration {
     private static final String CONNECTION_STRING = "mongodb+srv://%s:%s@%s/%s";
     private static final String USERNAME = "admin";
-    private static final String PASSWORD = "<password>";
+    private static final String PASSWORD = "fte3tbEqnKGUsqhr";
     private static final String HOST = "rosella.f5cthio.mongodb.net";
     private static final String DATABASE = "Rosella";
 
