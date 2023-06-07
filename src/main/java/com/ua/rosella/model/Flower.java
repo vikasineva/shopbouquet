@@ -18,7 +18,6 @@ public class Flower {
     @Field(name = "description")
     String description;
 
-    @JsonIgnore
     @Field(name = "icon")
     String icon;
 

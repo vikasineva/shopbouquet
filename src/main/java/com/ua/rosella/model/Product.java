@@ -22,7 +22,6 @@ public class Product {
     Double price;
     @Field(name = "discount")
     Double discount;
-    @JsonIgnore
     @Field(name = "picture")
     String picture;
     @Field(name = "available")
