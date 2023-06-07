@@ -21,7 +21,6 @@ public class CatalogController {
     @Autowired
     private BouquetService service;
 
-
     @GetMapping(value = "/{catalogName}/{page}", produces = "application/json")
     public ResponseEntity<?> getCatalog(@PathVariable String catalogName, @PathVariable int page){
         if(catalogName==null || catalogName.isEmpty() || page<=0){
