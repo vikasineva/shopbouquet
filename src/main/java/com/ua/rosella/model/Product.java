@@ -1,9 +1,12 @@
 package com.ua.rosella.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.List;
 
 @Document(collection = "Products")
 public class Product {
@@ -19,10 +22,37 @@ public class Product {
     Double price;
     @Field(name = "discount")
     Double discount;
+    @JsonIgnore
     @Field(name = "picture")
     String picture;
     @Field(name = "available")
     Integer available;
+
+    class Category{
+        String name;
+        String translitName;
+
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getTranslitName() {
+            return translitName;
+        }
+
+        public void setTranslitName(String translitName) {
+            this.translitName = translitName;
+        }
+
+    }
+    @Field(name = "categories")
+
+    List<Category> categories;
 
     public ObjectId getId() {
         return id;
@@ -86,5 +116,13 @@ public class Product {
 
     public void setTranslitName(String translitName) {
         this.translitName = translitName;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }

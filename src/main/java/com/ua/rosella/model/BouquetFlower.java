@@ -14,6 +14,17 @@ public class BouquetFlower {
     @Field(name = "color")
     String color;
 
+    @Field(name="translitColor")
+    String translitColor;
+
+    public String getTranslitColor() {
+        return translitColor;
+    }
+
+    public void setTranslitColor(String translitColor) {
+        this.translitColor = translitColor;
+    }
+
     public Flower getFlower() {
         return flower;
     }
