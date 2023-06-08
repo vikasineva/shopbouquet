@@ -74,7 +74,7 @@ public class BouquetService {
             });
             var sizeCriteria = new Criteria();
             for(Pair<Integer,Integer> interval:sizeIntervals){
-                sizeCriteria.orOperator(Criteria.where("size.width").gte(interval.getFirst()).lte(interval.getSecond()));
+                sizeCriteria.orOperator(Criteria.where("size.width").gte(interval.getFirst()).lt(interval.getSecond()));
             }
             criteriaList.add(sizeCriteria);
         }
@@ -85,29 +85,45 @@ public class BouquetService {
             criteriaList.add(Criteria.where("composition.composition.translitColor").in(colors));
         }
         if(kind!=null){
-            criteriaList.add(Criteria.where("composition.composition.flower.translitKind").in(kind));
+            criteriaList.add(Criteria.where("composition.composition.translitKind").in(kind));
         }
         if(theme!=null){
             criteriaList.add(Criteria.where("themes.translitName").in(theme));
         }
         MatchOperation match = Aggregation.match(new Criteria().andOperator(criteriaList));
-
-        Sort sort = null;
-        switch (sortType){
-            case CHEAP -> sort=Sort.by(Sort.Direction.ASC,"price");
-            case EXPENSIVE -> sort=Sort.by(Sort.Direction.DESC,"price");
-            case NOVELTY -> sort=Sort.by(Sort.Direction.ASC,"_id");
-            //case POPULARITY -> sort=Sort.by(Sort.Direction.ASC,"price");
-        }
-
-        SortOperation sortOperation = Aggregation.sort(sort);
         SkipOperation skip = Aggregation.skip((long) (page - 1) *ConstantVariables.itemsPerPage);
         LimitOperation limit = Aggregation.limit(ConstantVariables.itemsPerPage);
-        Aggregation aggregation = Aggregation.newAggregation(match, sortOperation,skip,limit);
+        SortOperation sortOperation = null;
+        Aggregation aggregation;
+        switch (sortType){
+            case CHEAP -> sortOperation = Aggregation.sort(Sort.by(Sort.Direction.ASC,"price"));
+            case EXPENSIVE -> sortOperation = Aggregation.sort(Sort.by(Sort.Direction.DESC,"price"));
+            case NOVELTY -> sortOperation = Aggregation.sort(Sort.by(Sort.Direction.ASC,"_id"));
+            case POPULARITY -> sortOperation = Aggregation.sort(Sort.by(Sort.Direction.DESC,"count"));
+        }
+        if(!sortType.equals(SortType.POPULARITY)) {
+            aggregation = Aggregation.newAggregation(match, sortOperation, skip, limit);
+        }else {
+            LookupOperation lookup = LookupOperation.newLookup()
+                                    .from("Orders")
+                                    .localField("_id")
+                                    .foreignField("items.items.item_id")
+                                    .as("matchDoc");
 
+            AddFieldsOperation addField = Aggregation.addFields()
+                    .addFieldWithValue("count",
+                    Aggregation.addFields().addFieldWithValue("$size","$matchDoc")
+            ).build();
+            ProjectionOperation project = Aggregation.project().andExclude("count");
+            aggregation = Aggregation.newAggregation(match,lookup,addField, sortOperation, skip,limit,project);
+        }
         Aggregation findAndCount = Aggregation.newAggregation(match, Aggregation.count().as("total"));
         AggregationResults<Document> countResult = mongoTemplate.aggregate(findAndCount,"Products", Document.class);
         var catalogResult = mongoTemplate.aggregate(aggregation,"Products", Bouquet.class);
+        var list = catalogResult.getMappedResults();
+        if(list.isEmpty()){
+            return null;
+        }
         return Pair.of(catalogResult.getMappedResults(), Objects.requireNonNull(countResult.getUniqueMappedResult()).getInteger("total"));
 
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -67,6 +68,9 @@ public class CatalogController {
         }else {
             SortType type = SortType.checkType(sortType);
             var catalog = service.findAllByCatalogSearchQuery(catalogName,priceInterval,flowers,sizes,colors,kind,themes,type,page);
+            if(catalog==null){
+                return new ResponseEntity<>(new LinkedList<>(),HttpStatus.NOT_FOUND);
+            }
             var pagination = new Pagination(
                     page,
                     catalog.getSecond(),
