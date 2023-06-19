@@ -48,7 +48,7 @@ public class RosellaSecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**",
-                        "/{catalogName}/**",
+                        "/{catalogName}",
                         "/product/**")
                 .permitAll()
                 .anyRequest()

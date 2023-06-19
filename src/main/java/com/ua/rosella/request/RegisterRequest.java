@@ -36,6 +36,7 @@ public class RegisterRequest {
     Boolean enabled;
     Date birthday;
 
+    public RegisterRequest() {}
     public RegisterRequest(@NotNull(message = "Пошта не може бути порожньою") String email,
                            @NotNull(message = "Пароль не може бути порожнім") String password,
                            @NotNull(message = "Ім'я не може бути порожнім") String firstName,
