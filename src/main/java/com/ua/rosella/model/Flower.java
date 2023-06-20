@@ -1,13 +1,10 @@
 package com.ua.rosella.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.io.Serializable;
 import java.util.List;
 @Document(collection = "Flowers")
 public class Flower {
@@ -23,7 +20,7 @@ public class Flower {
 
     public class Color{
         String name;
-        String translateName;
+        String translitName;
 
         public String getName() {
             return name;
@@ -33,12 +30,12 @@ public class Flower {
             this.name = name;
         }
 
-        public String getTranslateName() {
-            return translateName;
+        public String getTranslitName() {
+            return translitName;
         }
 
-        public void setTranslateName(String translateName) {
-            this.translateName = translateName;
+        public void setTranslitName(String translitName) {
+            this.translitName = translitName;
         }
     }
 

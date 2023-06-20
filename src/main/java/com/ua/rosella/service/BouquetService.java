@@ -73,10 +73,11 @@ public class BouquetService {
                 sizeIntervals.add(Bouquet.Size.getIntervalBySizeName(size));
             });
             var sizeCriteria = new Criteria();
+            var tmpSizeCriteriaList = new LinkedList<Criteria>();
             for(Pair<Integer,Integer> interval:sizeIntervals){
-                sizeCriteria.orOperator(Criteria.where("size.width").gte(interval.getFirst()).lt(interval.getSecond()));
+                tmpSizeCriteriaList.add(Criteria.where("size.width").gte(interval.getFirst()).lt(interval.getSecond()));
             }
-            criteriaList.add(sizeCriteria);
+            criteriaList.add(sizeCriteria.orOperator(tmpSizeCriteriaList));
         }
         if(flowers!=null){
             criteriaList.add(Criteria.where("composition.composition.flower.translitName").in(flowers));
