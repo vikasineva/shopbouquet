@@ -33,7 +33,7 @@ public class Bouquet extends Product {
         }
 
         public static Pair<Integer,Integer> getIntervalBySizeName(String name){
-            return switch (name) {
+            return switch (name.toUpperCase()) {
                 case "S" -> Pair.of(0, 25);
                 case "M" -> Pair.of(25, 35);
                 case "L" -> Pair.of(35, 50);

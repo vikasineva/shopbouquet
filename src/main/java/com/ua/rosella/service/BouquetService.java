@@ -3,6 +3,7 @@ package com.ua.rosella.service;
 import com.ua.rosella.ConstantVariables;
 import com.ua.rosella.model.Bouquet;
 import com.ua.rosella.repository.BouquetRepository;
+import com.ua.rosella.util.SearchUtils;
 import com.ua.rosella.util.SortType;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,15 +81,19 @@ public class BouquetService {
             criteriaList.add(sizeCriteria.orOperator(tmpSizeCriteriaList));
         }
         if(flowers!=null){
+            flowers = SearchUtils.ParameterListToLowerCase(flowers);
             criteriaList.add(Criteria.where("composition.composition.flower.translitName").in(flowers));
         }
         if(colors!=null){
+            colors = SearchUtils.ParameterListToLowerCase(colors);
             criteriaList.add(Criteria.where("composition.composition.translitColor").in(colors));
         }
         if(kind!=null){
+            kind = SearchUtils.ParameterListToLowerCase(kind);
             criteriaList.add(Criteria.where("composition.composition.translitKind").in(kind));
         }
         if(theme!=null){
+            theme = SearchUtils.ParameterListToLowerCase(theme);
             criteriaList.add(Criteria.where("themes.translitName").in(theme));
         }
         MatchOperation match = Aggregation.match(new Criteria().andOperator(criteriaList));
