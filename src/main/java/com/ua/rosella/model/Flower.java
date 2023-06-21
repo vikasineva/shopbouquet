@@ -10,13 +10,24 @@ import java.util.List;
 public class Flower {
     @Id
     ObjectId id;
+
     @Field(name = "name")
     String name;
+
     @Field(name = "description")
     String description;
 
     @Field(name = "icon")
     String icon;
+
+    @Field(name = "translitName")
+    String translitName;
+
+    @Field(name = "kind")
+    String kind;
+
+    @Field(name = "translitKind")
+    String translitKind;
 
     public class Color{
         String name;
@@ -80,5 +91,29 @@ public class Flower {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getTranslitName() {
+        return translitName;
+    }
+
+    public void setTranslitName(String translitName) {
+        this.translitName = translitName;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getTranslitKind() {
+        return translitKind;
+    }
+
+    public void setTranslitKind(String translitKind) {
+        this.translitKind = translitKind;
     }
 }
