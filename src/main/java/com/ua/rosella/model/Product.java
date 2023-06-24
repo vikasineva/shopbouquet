@@ -1,6 +1,11 @@
 package com.ua.rosella.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.ua.rosella.util.ObjectIdDeserializer;
+import com.ua.rosella.util.ObjectIdSerializer;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,6 +16,8 @@ import java.util.List;
 @Document(collection = "Products")
 public class Product {
     @Id
+    @JsonSerialize(using = ObjectIdSerializer.class)
+    @JsonDeserialize(using = ObjectIdDeserializer.class)
     ObjectId id;
     @Field(name = "name")
     String name;

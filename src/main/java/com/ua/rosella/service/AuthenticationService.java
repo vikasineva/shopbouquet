@@ -133,4 +133,24 @@ public class AuthenticationService {
             }
         }
     }
+
+    public User getAuthUser(HttpServletRequest request){
+        final String authHeader = request.getHeader("Authorization");
+        final String jwt;
+        final String userEmail;
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return null;
+        }
+
+        jwt = authHeader.substring(7); // 7 because previous letters are 'Bearer '
+        userEmail = jwtService.extractUsername(jwt);
+
+        Token storedToken = userService.getTokenByItself(jwt).orElse(null);
+        if (storedToken != null) {
+            return userService.getUserByUserEmail(userEmail).orElse(null);
+        }else{
+            return null;
+        }
+    }
 }
