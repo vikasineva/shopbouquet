@@ -252,11 +252,11 @@ public class Order {
         this.history = history;
     }
 
-    public Boolean getAnonymous() {
+    public Boolean getIsAnonymous() {
         return isAnonymous;
     }
 
-    public void setAnonymous(Boolean anonymous) {
+    public void setIsAnonymous(Boolean anonymous) {
         isAnonymous = anonymous;
     }
 
@@ -309,7 +309,7 @@ public class Order {
             ));
         }
         this.kindPay = request.getKindPay();
-        this.isAnonymous = request.getAnonymous();
+        this.isAnonymous = request.getIsAnonymous();
         this.postcardText = request.getPostcardText();
         this.history = new LinkedList<>();
     }
