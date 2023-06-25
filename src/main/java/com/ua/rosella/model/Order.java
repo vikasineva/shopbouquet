@@ -172,6 +172,7 @@ public class Order {
 
     String postcardText;
 
+    Double totalPrice;
     public Integer getOrderNumber() {
         return orderNumber;
     }
@@ -312,5 +313,6 @@ public class Order {
         this.isAnonymous = request.getIsAnonymous();
         this.postcardText = request.getPostcardText();
         this.history = new LinkedList<>();
+        this.totalPrice = getTotalPrice();
     }
 }
