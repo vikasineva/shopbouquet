@@ -21,8 +21,9 @@ public class ObjectsValidator<T> {
         Set<ConstraintViolation<T>> violations = validator.validate(objectToValidate);
         if (!violations.isEmpty()) {
             var errorMessages = violations.stream()
-                    .map(ConstraintViolation::getMessage)
+                    .map(x -> x.getMessage() + '\n')
                     .collect(Collectors.toSet());
+
             throw new ObjectNotValidException(errorMessages);
         }
     }
