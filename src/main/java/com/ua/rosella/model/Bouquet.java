@@ -1,13 +1,17 @@
 package com.ua.rosella.model;
 
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.util.Pair;
+
 import java.util.List;
 
-public class Bouquet extends Good{
-
+@Document(collection = "Products")
+public class Bouquet extends Product {
+    @Field(name = "composition.composition")
     List<BouquetFlower> composition;
-    List<String> themes;
-    String kind;
-    String subspecies;
+
     public class Size{
         Double height;
         Double width;
@@ -27,9 +31,44 @@ public class Bouquet extends Good{
         public void setWidth(Double width) {
             this.width = width;
         }
-    }
-    public Size size;
 
+        public static Pair<Integer,Integer> getIntervalBySizeName(String name){
+            return switch (name.toUpperCase()) {
+                case "S" -> Pair.of(0, 25);
+                case "M" -> Pair.of(25, 35);
+                case "L" -> Pair.of(35, 50);
+                case "XL" -> Pair.of(50, Integer.MAX_VALUE);
+                default -> Pair.of(0,0);
+            };
+        }
+    }
+
+    public class Theme{
+        String name;
+        String translitName;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getTranslitName() {
+            return translitName;
+        }
+
+        public void setTranslitName(String translitName) {
+            this.translitName = translitName;
+        }
+    }
+    @Field(name="themes")
+    public List<Theme> themes;
+
+    @Field(name = "size")
+    public Size size;
+    @Field(name = "composition.wrapping")
     public List<String> wrapping;
 
 
@@ -41,28 +80,12 @@ public class Bouquet extends Good{
         this.composition = composition;
     }
 
-    public List<String> getThemes() {
+    public List<Theme> getThemes() {
         return themes;
     }
 
-    public void setThemes(List<String> themes) {
+    public void setThemes(List<Theme> themes) {
         this.themes = themes;
-    }
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-
-    public String getSubspecies() {
-        return subspecies;
-    }
-
-    public void setSubspecies(String subspecies) {
-        this.subspecies = subspecies;
     }
 
     public Size getSize() {
@@ -80,4 +103,6 @@ public class Bouquet extends Good{
     public void setWrapping(List<String> wrapping) {
         this.wrapping = wrapping;
     }
+
+
 }
