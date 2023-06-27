@@ -113,7 +113,7 @@ public class BouquetService {
             LookupOperation lookup = LookupOperation.newLookup()
                                     .from("Orders")
                                     .localField("_id")
-                                    .foreignField("items.items.item_id")
+                                    .foreignField("items.item.$id")
                                     .as("matchDoc");
 
             AddFieldsOperation addField = Aggregation.addFields()
