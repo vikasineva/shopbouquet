@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class CatalogController {
 
     @Autowired
