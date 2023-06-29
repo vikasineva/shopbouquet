@@ -45,7 +45,7 @@ public class RosellaSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
-                .disable()
+                .disable().cors().and()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**",
                         "/{catalogName}",
